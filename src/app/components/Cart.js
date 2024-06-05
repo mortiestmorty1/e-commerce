@@ -5,43 +5,67 @@ export default function Cart() {
   const { items, totalQuantity, totalAmount } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  const handleRemove = (id) => {
-    dispatch(removeFromCart(id));
-  };
-
   const handleUpdateQuantity = (id, quantity) => {
-    dispatch(updateQuantity({ id, quantity }));
+    if (quantity <= 0) {
+      dispatch(removeFromCart(id));
+    } else {
+      dispatch(updateQuantity({ id, quantity }));
+    }
   };
 
   return (
-    <div className="container mx-auto p-4  bg-white">
+    <div className="container mx-auto p-4 bg-white">
       <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
-      <div className="grid grid-cols-1 gap-4">
-        {Object.keys(items).map((key) => {
-          const item = items[key];
-          return (
-            <div key={item.id} className="flex items-center border p-4 rounded">
-              <img src={item.image} alt={item.title} className="w-24 h-24 object-cover" />
-              <div className="flex-1 ml-4">
-                <h3 className="text-lg font-bold">{item.title}</h3>
-                <p className="text-gray-700">${item.price}</p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}>-</button>
-                <span>{item.quantity}</span>
-                <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}>+</button>
-              </div>
-              <button onClick={() => handleRemove(item.id)} className="ml-4 text-red-500">Remove</button>
+      <div className="flex">
+        <div className="w-2/3">
+          <div className="text-black grid grid-cols-4 gap-4">
+            <div className="col-span-2 font-bold text-center ml-16">Name</div>
+            <div className="font-bold text-center">Price</div>
+            <div className="font-bold text-center">Quantity</div>
+          </div>
+          <div className="bg-gray-100 p-4 rounded mt-2">
+            {Object.keys(items).map((key) => {
+              const item = items[key];
+              return (
+                <div key={item.id} className="grid grid-cols-4 gap-4 items-center border-b py-4">
+                  <div className="col-span-2 flex items-center">
+                    <img src={item.image} className="w-16 h-16 object-cover rounded" />
+                    <span className="ml-4">{item.title}</span>
+                  </div>
+                  <div>${item.price}</div>
+                  <div className="flex items-center justify-center">
+                    <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} className="px-2 py-1 bg-gray-300 rounded">-</button>
+                    <span className="px-2">{item.quantity}</span>
+                    <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="px-2 py-1 bg-gray-300 rounded">+</button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="w-1/3 ml-4">
+          <div className="bg-gray-100 p-4 rounded">
+            <h3 className="text-xl font-bold mb-4">Your Total</h3>
+            {Object.keys(items).map((key) => {
+              const item = items[key];
+              return (
+                <div key={item.id} className="flex justify-between mb-2">
+                  <span>{item.title}</span>
+                  <span>X {item.quantity}</span>
+                  <span>${item.price * item.quantity}</span>
+                </div>
+              );
+            })}
+            <hr className="my-4" />
+            <div className="flex justify-between font-bold text-lg">
+              <span>Total</span>
+              <span>${totalAmount}</span>
             </div>
-          );
-        })}
-      </div>
-      <div className="mt-4">
-        <h3 className="text-xl">Total Quantity: {totalQuantity}</h3>
-        <h3 className="text-xl">Total Amount: ${totalAmount}</h3>
-        <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Check Out
-        </button>
+            <button className="mt-4 w-full bg-black text-white font-bold py-2 px-4 rounded">
+              Check Out
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
