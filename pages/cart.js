@@ -3,7 +3,7 @@ import Cart from '../src/app/components/Cart.js';
 
 const CartPage = () => {
   return (
-    <div>
+    <div className=' bg-white'>
       <Cart />
     </div>
   );

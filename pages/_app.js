@@ -6,7 +6,7 @@ import Navbar from '../src/app/components/Navbar';
 function MyApp({ Component, pageProps }) {
   return (
     
-    <Provider store={store}>
+    <Provider store={store} className="bg-white">
         <Navbar />
       <Component {...pageProps} />
     </Provider>

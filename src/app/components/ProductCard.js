@@ -1,5 +1,8 @@
+import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../Store/cartSlice';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 export default function ProductCard({ product }) {
   const dispatch = useDispatch();
@@ -9,14 +12,26 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <div className="border rounded overflow-hidden shadow-lg p-4">
-      <img src={product.image} alt={product.title} className="w-full h-48 object-cover" />
-      <div className="p-4">
-        <h3 className="text-lg font-bold">{product.title}</h3>
-        <p className="text-gray-700">${product.price}</p>
-        <button onClick={handleAddToCart} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Add to Cart
-        </button>
+     <div className=" bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl w-full max-w-xs flex flex-col justify-between">
+      <Link href={`/product/${product.id}`}>
+      <div className="h-48 w-full flex items-center justify-center overflow-hidden rounded-t-xl">
+        <img src={product.image} className="h-full object-contain" />
+      </div>
+      <div className="p-4 flex-grow flex flex-col justify-between">
+        <h2 className="text-black text-xl font-bold truncate">{product.title}</h2>
+        <p className="text-gray-500 text-sm mt-2">{product.category}</p>
+        <p className="text-gray-700 text-sm line-clamp-3 mt-2 mb-4">{product.description}</p>
+        <div className='flex flex-wraps'>
+          <p className="text-gray-500 mr-1">Price:</p>
+          <p className="text-black font-bold">${product.price}</p>
+        </div>
+      </div>
+      </Link>
+      <div className='flex flex-wrap justify-center mb-2'>
+      <button onClick={handleAddToCart} className=" bg-black text-white font-bold py-2 px-4 rounded w-60 mt-1">
+        <FontAwesomeIcon icon={faCartShopping} className="text-white mr-2" />
+        Add to Cart
+      </button>
       </div>
     </div>
   );

@@ -22,10 +22,12 @@ export default function ProductGrid() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-      {filteredProducts.map(product => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+    <div className="bg-white container mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-20">
+        {filteredProducts.map(product => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     </div>
   );
 }
