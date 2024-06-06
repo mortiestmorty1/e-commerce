@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import ProductDetail from '../../src/app/components/ProductDetail';
-import '../styles/globals.css';
+
 export default function ProductDetailPage() {
   const router = useRouter();
   const { productId } = router.query;
