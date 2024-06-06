@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../Store/cartSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faBackward } from '@fortawesome/free-solid-svg-icons';
+import Image from 'next/image';
 
 export default function ProductDetail({ product }) {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export default function ProductDetail({ product }) {
       <FontAwesomeIcon icon={faBackward}></FontAwesomeIcon> Back</button>
       <div className="flex flex-wrap md:flex-nowrap bg-white shadow-md rounded-lg p-6">
         <div className="w-full md:w-1/2 p-4 flex items-center justify-center rounded-2xl shadow-2xl">
-          <img src={product.image} alt={product.title} className="object-contain h-full max-h-96 w-full rounded-lg" />
+          <Image src={product.image} alt={product.title} className="object-contain h-full max-h-96 w-full rounded-lg" />
         </div>
         <div className="w-full md:w-1/2 p-4 flex flex-col justify-center">
         <h2 className="text-2xl text-black font-bold">{product.title}</h2>
