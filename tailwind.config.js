@@ -9,7 +9,9 @@ module.exports = {
     extend: {
       fontFamily: {
         'playfair': ['Playfair Display', 'serif'],
-        'Montserrat': ['Montserrat', 'sans-serif']
+        'Montserrat': ['Montserrat', 'sans-serif'],
+        'mono': ['ui-monospace', 'SFMono-Regular'],
+        'poppins': ["Poppins", "sans-serif"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const initialState = {
-  products: [], // Your initial products array
+  products: [], 
   filteredProducts: [],
   category: '',
   searchQuery: '',
@@ -10,7 +10,6 @@ const initialState = {
   error: null,
 };
 
-// Async thunk to fetch products
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
@@ -29,21 +28,28 @@ const productsSlice = createSlice({
   reducers: {
     setCategory: (state, action) => {
       state.category = action.payload;
-      if (action.payload === "") {
-        state.filteredProducts = state.products;
-      } else {
-        state.filteredProducts = state.products.filter(product => 
-          product.category.toLowerCase() === action.payload.toLowerCase()
+      state.filteredProducts = state.products.filter(product => 
+        product.category.toLowerCase() === action.payload.toLowerCase()
+      );
+      // Apply search filter within the category
+      if (state.searchQuery.trim() !== "") {
+        state.filteredProducts = state.filteredProducts.filter(product =>
+          product.title.toLowerCase().includes(state.searchQuery.toLowerCase().trim())
         );
       }
     },
     setSearchQuery: (state, action) => {
-      state.searchQuery = action.payload;
-      if (action.payload.trim() === "") {
-        state.filteredProducts = state.products;
+      const { query, category } = action.payload;
+      state.searchQuery = query;
+
+      if (query.trim() === "") {
+        state.filteredProducts = category ? state.products.filter(product =>
+          product.category.toLowerCase() === category.toLowerCase()
+        ) : state.products;
       } else {
         state.filteredProducts = state.products.filter(product =>
-          product.title.toLowerCase().includes(action.payload.toLowerCase().trim())
+          product.title.toLowerCase().includes(query.toLowerCase().trim()) &&
+          (category ? product.category.toLowerCase() === category.toLowerCase() : true)
         );
       }
     },

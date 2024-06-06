@@ -1,22 +1,37 @@
-'use client';
-import Link from 'next/link';
-import { useSelector, useDispatch } from 'react-redux';
+"use client";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCategory, setSearchQuery } from '../Store/productsSlice';
+import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from 'next/router';
 
 export default function NavBar() {
+  const router = useRouter();
   const dispatch = useDispatch();
-  const cartQuantity = useSelector(state => state.cart.totalQuantity);
+  const cart = useSelector(state => state.cart);
+  const [isHomePage, setIsHomePage] = useState(router.pathname === '/');
+  const [selectedCategory, setSelectedCategory] = useState(router.pathname);
 
-  const handleCategoryClick = (category) => {
-    console.log('Category clicked:', category);
-    dispatch(setCategory(category));
-  };
+  useEffect(() => {
+    // Check if on home page
+    if (router.pathname === '/') {
+      setIsHomePage(true);
+    } else {
+      setIsHomePage(false);
+    }
+    setSelectedCategory(router.pathname);
+  }, [router.pathname]);
 
   const handleSearchChange = (event) => {
-    console.log('Search query:', event.target.value);
-    dispatch(setSearchQuery(event.target.value));
+    const query = event.target.value;
+    const category = isHomePage ? '' : router.query.category || '';
+    dispatch(setSearchQuery({ query, category }));
+  };
+
+  const handleCategoryClick = (path) => {
+    setSelectedCategory(path);
   };
 
   return (
@@ -24,17 +39,43 @@ export default function NavBar() {
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link href="/" className="font-playfair hover:text-gray-300 text-xl font-bold">Ecommerce</Link>
         <div className="ml-10 flex space-x-10">
-          <button onClick={() => handleCategoryClick('electronics')} type="button" className="hover:text-gray-300 font-Montserrat">Electronics</button>
-          <button onClick={() => handleCategoryClick("men's clothing")} className="hover:text-gray-300 font-Montserrat">Mens Fashion</button>
-          <button onClick={() => handleCategoryClick("women's clothing")} className="hover:text-gray-300 font-Montserrat">Women's Fashion</button>
-          <button onClick={() => handleCategoryClick('jewelery')} className="hover:text-gray-300 font-Montserrat">Jewelry</button>
+          <Link href="/electronics">
+          <button onClick={() => handleCategoryClick('/electronics')}
+              className={`font-mono ${selectedCategory === '/electronics' ? 'font-bold border-b-2 border-black' : 'hover:text-gray-300'}`}
+              >
+              Electronics
+            </button>
+          </Link>
+          <Link href="/mens-fashion">
+          <button onClick={() => handleCategoryClick('/mens-fashion')}
+              className={`font-mono ${selectedCategory === '/mens-fashion' ? 'font-bold border-b-2 border-black' : 'hover:text-gray-300'}`}
+            >
+              Mens Fashion
+            </button>
+          </Link>
+          <Link href="/womens-fashion">
+          <button onClick={() => handleCategoryClick('/womens-fashion')}
+              className={`font-mono ${selectedCategory === '/womens-fashion' ? 'font-bold border-b-2 border-black' : 'hover:text-gray-300'}`}
+            >
+              Women's Fashion
+            </button>
+          </Link>
+          <Link href="/jewelry">
+          <button onClick={() => handleCategoryClick('/jewelry')}
+              className={`font-mono ${selectedCategory === '/jewelry' ? 'font-bold border-b-2 border-black' : 'hover:text-gray-300'}`}
+            >
+              Jewelry
+            </button>
+          </Link>
         </div>
         <div className="flex items-center space-x-4">
+          <div className="flex items-center shadow-2xl">
           <input type="text" placeholder="Search..." onChange={handleSearchChange} className="rounded pl-10 pr-4 py-2" />
-          <FontAwesomeIcon icon={faSearch} className="text-black hover:text-gray-500 font-bold py-2 px-4 rounded" />
-          <Link href={`/cart`} className="bg-black p-2 rounded-full flex items-center cursor-pointer">
-              <FontAwesomeIcon icon={faCartShopping} className="text-white mr-2" />
-              <span className="text-white">{cartQuantity}</span>
+          <FontAwesomeIcon icon={faSearch} className="text-black hover:text-gray-500 font-bold py-2 px-4 rounded " />
+          </div>
+          <Link href="/cart" className="bg-black p-2 rounded-full flex items-center cursor-pointer">
+            <FontAwesomeIcon icon={faCartShopping} className="text-white mr-2" />
+            <span className="text-white">{Object.keys(cart.items).length}</span>
           </Link>
         </div>
       </div>
