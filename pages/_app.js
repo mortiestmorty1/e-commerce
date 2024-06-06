@@ -1,7 +1,7 @@
 import '../src/app/globals.css';
 import { Provider } from 'react-redux';
 import store from '../src/app/Store/Store';
-import Navbar from '../src/app/components/Navbar';
+import Navbar from '../src/app/components/NavBar';
 import Footer from '../src/app/components/Footer';
 
 function MyApp({ Component, pageProps }) {
