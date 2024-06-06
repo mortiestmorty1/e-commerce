@@ -1,11 +1,16 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { removeFromCart, updateQuantity } from '../Store/cartSlice';
 
 export default function Cart() {
   const { items, totalQuantity, totalAmount } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const [showPopup, setShowPopup] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleUpdateQuantity = (id, quantity) => {
     if (quantity <= 0) {
@@ -20,6 +25,10 @@ export default function Cart() {
     setTimeout(() => setShowPopup(false), 3000);
   };
 
+  if (!isClient) {
+    return <div className="container mx-auto p-4 bg-white">Loading...</div>;
+  }
+
   return (
     <div className="container mx-auto p-4 bg-white">
       <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
@@ -28,11 +37,11 @@ export default function Cart() {
           <p>Your cart is empty. Buy something!</p>
         </div>
       ) : (
-        <div className="flex">
-          <div className="w-2/3">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-2/3">
             <div className="rounded-xl p-4"></div>
             <div className="text-gray-500 grid grid-cols-4 gap-4">
-              <div className="col-span-2 font-bold text-center ml-16">Name</div>
+              <div className="col-span-2 font-bold text-center">Name</div>
               <div className="font-bold text-center">Price</div>
               <div className="font-bold text-center">Quantity</div>
             </div>
@@ -40,7 +49,7 @@ export default function Cart() {
               {Object.keys(items).map((key) => {
                 const item = items[key];
                 return (
-                  <div key={item.id} className="grid grid-cols-4 gap-5 items-center bg-white shadow-md rounded-xl p-4">
+                  <div key={item.id} className="grid grid-cols-4 gap-2 md:gap-5 items-center bg-white shadow-md rounded-xl p-4">
                     <div className="col-span-2 flex items-center">
                       <img src={item.image} className="w-10 h-10 object-cover rounded" alt={item.title} />
                       <span className="ml-4">{item.title}</span>
@@ -66,9 +75,8 @@ export default function Cart() {
               })}
             </div>
           </div>
-          <div className="w-10 ml-1"></div>
-          <div className="text-black bg-white shadow-md rounded-xl w-120">
-            <div className="p-4 rounded">
+          <div className="w-full md:w-1/3 mt-4 md:mt-0 md:ml-4">
+            <div className="text-black bg-white shadow-md rounded-xl p-4">
               <h3 className="text-xl font-bold mb-4">Your Total</h3>
               {Object.keys(items).map((key) => {
                 const item = items[key];

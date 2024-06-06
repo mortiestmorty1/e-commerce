@@ -1,11 +1,26 @@
 import { configureStore } from '@reduxjs/toolkit';
-import productsReducer from './productsSlice';
 import cartReducer from './cartSlice';
+import productsReducer from './productsSlice';
+
+const loadState = () => {
+  try {
+    const serializedState = localStorage.getItem('cart');
+    if (serializedState === null) {
+      return undefined;
+    }
+    return JSON.parse(serializedState);
+  } catch (err) {
+    return undefined;
+  }
+};
 
 const store = configureStore({
   reducer: {
-    products: productsReducer,
     cart: cartReducer,
+    products: productsReducer,
+  },
+  preloadedState: {
+    cart: loadState(),
   },
 });
 
