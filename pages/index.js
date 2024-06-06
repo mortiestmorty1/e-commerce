@@ -1,4 +1,5 @@
 import ProductGrid from '../src/app/components/ProductGrid';
+import '../styles/globals.css';
 
 export default function HomePage() {
   return (
