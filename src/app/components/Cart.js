@@ -52,7 +52,7 @@ export default function Cart() {
                 return (
                   <div key={item.id} className="grid grid-cols-4 gap-2 md:gap-5 items-center bg-white shadow-md rounded-xl p-4">
                     <div className="col-span-2 flex items-center">
-                      <img src={item.image} className="w-10 h-10 object-cover rounded" alt={item.title} />
+                      <Image src={item.image} width={500} height={500}  className="w-10 h-10 object-cover rounded" alt={item.title} />
                       <span className="ml-4">{item.title}</span>
                     </div>
                     <div className="text-center">${item.price}</div>
