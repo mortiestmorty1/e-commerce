@@ -16,7 +16,7 @@ export default function ProductCard({ product }) {
      <div className=" bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl w-full max-w-xs flex flex-col justify-between">
       <Link href={`/product/${product.id}`}>
       <div className="h-48 w-full flex items-center justify-center overflow-hidden rounded-2xl shadow-2xl">
-        <Image src={product.image} className="h-full object-contain" />
+        <img src={product.image} className="h-full object-contain" />
       </div>
       <div className="p-4 flex-grow flex flex-col justify-between">
         <h2 className="text-black text-xl font-bold truncate">{product.title}</h2>

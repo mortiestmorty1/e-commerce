@@ -17,7 +17,7 @@ export default function ProductDetail({ product }) {
       <FontAwesomeIcon icon={faBackward}></FontAwesomeIcon> Back</button>
       <div className="flex flex-wrap md:flex-nowrap bg-white shadow-md rounded-lg p-6">
         <div className="w-full md:w-1/2 p-4 flex items-center justify-center rounded-2xl shadow-2xl">
-          <Image src={product.image} alt={product.title} className="object-contain h-full max-h-96 w-full rounded-lg" />
+          <img src={product.image} alt={product.title} className="object-contain h-full max-h-96 w-full rounded-lg" />
         </div>
         <div className="w-full md:w-1/2 p-4 flex flex-col justify-center">
         <h2 className="text-2xl text-black font-bold">{product.title}</h2>
